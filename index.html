@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Arjun Moodley Clicker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fdf6e3;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    #score {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    #mps {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+    #clicker {
+      font-size: 24px;
+      padding: 20px;
+      background: #ffcc00;
+      border-radius: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.1s;
+      display: inline-block;
+    }
+    #clicker:active {
+      transform: scale(0.95);
+    }
+    .section {
+      margin-top: 30px;
+    }
+    .building, .upgrade {
+      margin: 10px auto;
+      padding: 12px;
+      width: 300px;
+      background: #eee;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .building:hover, .upgrade:hover {
+      background: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>Arjun Moodley Clicker</h1>
+  <div id="score">Moodley Points: 0</div>
+  <div id="mps">Passive MPS: 0</div>
+  <div id="clicker">Click Arjun!</div>
+
+  <div class="section" id="buildings">
+    <h2>Buildings</h2>
+    <div class="building" onclick="buyBuilding('arjunsGranny')">Arjun's Granny (Cost: 50) – +1/sec</div>
+    <div class="building" onclick="buyBuilding('farm')">Farm (Cost: 250) – +5/sec</div>
+    <div class="building" onclick="buyBuilding('factory')">Factory (Cost: 1000) – +20/sec</div>
+    <div class="building" onclick="buyBuilding('auraFarm')">Aura Farm (Cost: 5000) – +100/sec</div>
+    <div class="building" onclick="buyBuilding('moodleyMouse')">Moodley Mouse (Cost: 20000) – +500/sec</div>
+    <div class="building" onclick="buyBuilding('moodleyDrone')">Moodley Drone (Cost: 50000) – +1000/sec</div>
+    <div class="building" onclick="buyBuilding('quantumCore')">Quantum Moodley Core (Cost: 200000) – +5000/sec</div>
+    <div class="building" onclick="buyBuilding('memeReactor')">Meme Reactor (Cost: 1000000) – +20000/sec</div>
+    <div class="building" onclick="buyBuilding('moodleyversePortal')">Moodleyverse Portal (Cost: 5000000) – +50000/sec</div>
+    <div class="building" onclick="buyBuilding('aiClicksmith')">AI Clicksmith (Cost: 20000000) – +100000/sec</div>
+    <div class="building" onclick="buyBuilding('moodleyTemple')">Moodley Temple (Cost: 50000000) – +250000/sec</div>
+    <div class="building" onclick="buyBuilding('infiniteLoopLab')">Infinite Loop Lab (Cost: 100000000) – +500000/sec</div>
+    <div class="building" onclick="buyBuilding('moodleyMegabrain')">Moodley Megabrain (Cost: 500000000) – +1000000/sec</div>
+    <div class="building" onclick="buyBuilding('cosmicArray')">Cosmic Moodley Array (Cost: 2000000000) – +5000000/sec</div>
+    <div class="building" onclick="buyBuilding('moodleySingularity')">Moodley Singularity (Cost: 10000000000) – +10000000/sec</div>
+  </div>
+
+  <div class="section" id="upgrades">
+    <h2>Upgrades</h2>
+    <div class="upgrade" onclick="buyUpgrade('doubleClick')">Double Click Power (Cost: 100)</div>
+  </div>
+
+  <script>
+    let points = 0;
+    let clickPower = 1;
+
+    let buildings = {
+      granny: { count: 0, cost: 50, rate: 1 },
+      farm: { count: 0, cost: 250, rate: 5 },
+      factory: { count: 0, cost: 1000, rate: 20 },
+      auraFarm: { count: 0, cost: 5000, rate: 100 },
+      moodleyMouse: { count: 0, cost: 20000, rate: 500 }
+    };
+
+    let upgrades = {
+      doubleClick: { bought: false, cost: 100 }
+    };
+
+    document.getElementById("clicker").onclick = () => {
+      points += clickPower;
+      updateDisplay();
+    };
+
+    function buyBuilding(name) {
+      let b = buildings[name];
+      if (points >= b.cost) {
+        points -= b.cost;
+        b.count++;
+        b.cost = Math.floor(b.cost * 1.15);
+        updateDisplay();
+      }
+    }
+
+    function buyUpgrade(name) {
+      let u = upgrades[name];
+      if (!u.bought && points >= u.cost) {
+        points -= u.cost;
+        u.bought = true;
+        if (name === 'doubleClick') clickPower *= 2;
+        updateDisplay();
+      }
+    }
+
+    function getPassiveRate() {
+      let rate = 0;
+      for (let name in buildings) {
+        rate += buildings[name].count * buildings[name].rate;
+      }
+      return rate;
+    }
+
+    function updateDisplay() {
+      document.getElementById("score").innerText = `Moodley Points: ${Math.floor(points)}`;
+      document.getElementById("mps").innerText = `Passive MPS: ${getPassiveRate()}`;
+      for (let name in buildings) {
+        let b = buildings[name];
+        document.querySelector(`.building[onclick*="${name}"]`).innerText =
+          `${formatName(name)} (Cost: ${b.cost}) – +${b.rate}/sec (${b.count})`;
+      }
+      for (let name in upgrades) {
+        let u = upgrades[name];
+        if (u.bought) {
+          document.querySelector(`.upgrade[onclick*="${name}"]`).innerText = `${formatName(name)} – Purchased`;
+        }
+      }
+    }
+
+    function formatName(str) {
+      return str.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+    }
+
+    // Passive income loop
+    setInterval(() => {
+      points += getPassiveRate() / 10;
+      updateDisplay();
+    }, 100);
+
+    updateDisplay();
+  </script>
+</body>
+</html>
