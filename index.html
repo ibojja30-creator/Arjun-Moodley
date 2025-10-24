@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Arjun Moodley Clicker</title>
   <style>
     body {
@@ -55,43 +56,61 @@
   <div id="mps">Passive MPS: 0</div>
   <div id="clicker">Click Arjun!</div>
 
-  <div class="section" id="buildings">
-    <h2>Buildings</h2>
-    <div class="building" onclick="buyBuilding('arjunsGranny')">Arjun's Granny (Cost: 50) – +1/sec</div>
-    <div class="building" onclick="buyBuilding('farm')">Farm (Cost: 250) – +5/sec</div>
-    <div class="building" onclick="buyBuilding('factory')">Factory (Cost: 1000) – +20/sec</div>
-    <div class="building" onclick="buyBuilding('auraFarm')">Aura Farm (Cost: 5000) – +100/sec</div>
-    <div class="building" onclick="buyBuilding('moodleyMouse')">Moodley Mouse (Cost: 20000) – +500/sec</div>
-    <div class="building" onclick="buyBuilding('moodleyDrone')">Moodley Drone (Cost: 50000) – +1000/sec</div>
-    <div class="building" onclick="buyBuilding('quantumCore')">Quantum Moodley Core (Cost: 200000) – +5000/sec</div>
-    <div class="building" onclick="buyBuilding('memeReactor')">Meme Reactor (Cost: 1000000) – +20000/sec</div>
-    <div class="building" onclick="buyBuilding('moodleyversePortal')">Moodleyverse Portal (Cost: 5000000) – +50000/sec</div>
-    <div class="building" onclick="buyBuilding('aiClicksmith')">AI Clicksmith (Cost: 20000000) – +100000/sec</div>
-    <div class="building" onclick="buyBuilding('moodleyTemple')">Moodley Temple (Cost: 50000000) – +250000/sec</div>
-    <div class="building" onclick="buyBuilding('infiniteLoopLab')">Infinite Loop Lab (Cost: 100000000) – +500000/sec</div>
-    <div class="building" onclick="buyBuilding('moodleyMegabrain')">Moodley Megabrain (Cost: 500000000) – +1000000/sec</div>
-    <div class="building" onclick="buyBuilding('cosmicArray')">Cosmic Moodley Array (Cost: 2000000000) – +5000000/sec</div>
-    <div class="building" onclick="buyBuilding('moodleySingularity')">Moodley Singularity (Cost: 10000000000) – +10000000/sec</div>
+  <div class="section">
+    <h2>Bakery Name</h2>
+    <input type="text" id="bakeryNameInput" placeholder="Enter your bakery name">
+    <button id="renameButton">Rename</button>
+    <div id="bakeryNameDisplay">Bakery: Arjun's Bakery</div>
   </div>
 
-  <div class="section" id="upgrades">
+  <div class="section">
+    <h2>Buildings</h2>
+    <div class="building" id="building-arjunsGranny" onclick="buyBuilding('arjunsGranny')">Arjun's Granny (Cost: 50) – +1/sec</div>
+    <div class="building" id="building-farm" onclick="buyBuilding('farm')">Farm (Cost: 250) – +5/sec</div>
+    <div class="building" id="building-factory" onclick="buyBuilding('factory')">Factory (Cost: 1000) – +20/sec</div>
+    <div class="building" id="building-auraFarm" onclick="buyBuilding('auraFarm')">Aura Farm (Cost: 5000) – +100/sec</div>
+    <div class="building" id="building-moodleyMouse" onclick="buyBuilding('moodleyMouse')">Moodley Mouse (Cost: 20000) – +500/sec</div>
+    <div class="building" id="building-moodleyDrone" onclick="buyBuilding('moodleyDrone')">Moodley Drone (Cost: 50000) – +1000/sec</div>
+    <div class="building" id="building-quantumCore" onclick="buyBuilding('quantumCore')">Quantum Moodley Core (Cost: 200000) – +5000/sec</div>
+    <div class="building" id="building-memeReactor" onclick="buyBuilding('memeReactor')">Meme Reactor (Cost: 1000000) – +20000/sec</div>
+    <div class="building" id="building-moodleyversePortal" onclick="buyBuilding('moodleyversePortal')">Moodleyverse Portal (Cost: 5000000) – +50000/sec</div>
+    <div class="building" id="building-aiClicksmith" onclick="buyBuilding('aiClicksmith')">AI Clicksmith (Cost: 20000000) – +100000/sec</div>
+    <div class="building" id="building-moodleyTemple" onclick="buyBuilding('moodleyTemple')">Moodley Temple (Cost: 50000000) – +250000/sec</div>
+    <div class="building" id="building-infiniteLoopLab" onclick="buyBuilding('infiniteLoopLab')">Infinite Loop Lab (Cost: 100000000) – +500000/sec</div>
+    <div class="building" id="building-moodleyMegabrain" onclick="buyBuilding('moodleyMegabrain')">Moodley Megabrain (Cost: 500000000) – +1000000/sec</div>
+    <div class="building" id="building-cosmicArray" onclick="buyBuilding('cosmicArray')">Cosmic Moodley Array (Cost: 2000000000) – +5000000/sec</div>
+    <div class="building" id="building-moodleySingularity" onclick="buyBuilding('moodleySingularity')">Moodley Singularity (Cost: 10000000000) – +10000000/sec</div>
+  </div>
+
+  <div class="section">
     <h2>Upgrades</h2>
-    <div class="upgrade" onclick="buyUpgrade('doubleClick')">Double Click Power (Cost: 100)</div>
+    <div class="upgrade" id="upgrade-doubleClick" onclick="buyUpgrade('doubleClick')">Double Click Power (Cost: 100)</div>
   </div>
 
   <script>
     let points = 0;
     let clickPower = 1;
+    let bakeryName = "Arjun's Bakery";
 
-    let buildings = {
-      granny: { count: 0, cost: 50, rate: 1 },
+    const buildings = {
+      arjunsGranny: { count: 0, cost: 50, rate: 1 },
       farm: { count: 0, cost: 250, rate: 5 },
       factory: { count: 0, cost: 1000, rate: 20 },
       auraFarm: { count: 0, cost: 5000, rate: 100 },
-      moodleyMouse: { count: 0, cost: 20000, rate: 500 }
+      moodleyMouse: { count: 0, cost: 20000, rate: 500 },
+      moodleyDrone: { count: 0, cost: 50000, rate: 1000 },
+      quantumCore: { count: 0, cost: 200000, rate: 5000 },
+      memeReactor: { count: 0, cost: 1000000, rate: 20000 },
+      moodleyversePortal: { count: 0, cost: 5000000, rate: 50000 },
+      aiClicksmith: { count: 0, cost: 20000000, rate: 100000 },
+      moodleyTemple: { count: 0, cost: 50000000, rate: 250000 },
+      infiniteLoopLab: { count: 0, cost: 100000000, rate: 500000 },
+      moodleyMegabrain: { count: 0, cost: 500000000, rate: 1000000 },
+      cosmicArray: { count: 0, cost: 2000000000, rate: 5000000 },
+      moodleySingularity: { count: 0, cost: 10000000000, rate: 10000000 }
     };
 
-    let upgrades = {
+    const upgrades = {
       doubleClick: { bought: false, cost: 100 }
     };
 
@@ -100,8 +119,16 @@
       updateDisplay();
     };
 
+    document.getElementById("renameButton").onclick = () => {
+      const input = document.getElementById("bakeryNameInput").value.trim();
+      if (input.length > 0) {
+        bakeryName = input;
+        updateDisplay();
+      }
+    };
+
     function buyBuilding(name) {
-      let b = buildings[name];
+      const b = buildings[name];
       if (points >= b.cost) {
         points -= b.cost;
         b.count++;
@@ -111,7 +138,7 @@
     }
 
     function buyUpgrade(name) {
-      let u = upgrades[name];
+      const u = upgrades[name];
       if (!u.bought && points >= u.cost) {
         points -= u.cost;
         u.bought = true;
@@ -121,40 +148,43 @@
     }
 
     function getPassiveRate() {
-      let rate = 0;
-      for (let name in buildings) {
-        rate += buildings[name].count * buildings[name].rate;
-      }
-      return rate;
+      return Object.values(buildings).reduce((sum, b) => sum + b.count * b.rate, 0);
     }
 
     function updateDisplay() {
-      document.getElementById("score").innerText = `Moodley Points: ${Math.floor(points)}`;
-      document.getElementById("mps").innerText = `Passive MPS: ${getPassiveRate()}`;
-      for (let name in buildings) {
-        let b = buildings[name];
-        document.querySelector(`.building[onclick*="${name}"]`).innerText =
-          `${formatName(name)} (Cost: ${b.cost}) – +${b.rate}/sec (${b.count})`;
-      }
-      for (let name in upgrades) {
-        let u = upgrades[name];
-        if (u.bought) {
-          document.querySelector(`.upgrade[onclick*="${name}"]`).innerText = `${formatName(name)} – Purchased`;
-        }
-      }
+  document.getElementById("score").innerText = `Moodley Points: ${Math.floor(points)}`;
+  document.getElementById("mps").innerText = `Passive MPS: ${getPassiveRate()}`;
+  document.getElementById("bakeryNameDisplay").innerText = `Bakery: ${bakeryName}`;
+  for (const [name, b] of Object.entries(buildings)) {
+    const el = document.getElementById(`building-${name}`);
+    if (el) {
+      el.innerText = `${formatName(name)} (Cost: ${b.cost}) – +${b.rate}/sec (${b.count})`;
     }
-
-    function formatName(str) {
-      return str.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase());
+  }
+  for (const [name, u] of Object.entries(upgrades)) {
+    const el = document.getElementById(`upgrade-${name}`);
+    if (el) {
+      el.innerText = u.bought
+        ? `${formatName(name)} – Purchased`
+        : `${formatName(name)} (Cost: ${u.cost})`;
     }
+  }
+}
 
-    // Passive income loop
-    setInterval(() => {
-      points += getPassiveRate() / 10;
-      updateDisplay();
-    }, 100);
+function formatName(str) {
+  return str
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, s => s.toUpperCase())
+    .replace(/Arjuns/g, "Arjun's")
+    .replace(/Moodley/g, "Moodley")
+    .trim();
+}
 
-    updateDisplay();
+// Passive income loop
+setInterval(() => {
+  points += getPassiveRate() / 10;
+  updateDisplay();
+}, 100);
+
+updateDisplay();
   </script>
-</body>
-</html>
